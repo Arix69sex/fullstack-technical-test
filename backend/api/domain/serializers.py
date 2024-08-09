@@ -13,11 +13,6 @@ class UserSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class AdoptionSerializer(serializers.ModelSerializer):
-    adopted_pet = PetSerializer(read_only=True)
-    user = UserSerializer(read_only=True)
-    adopted_pet_id = serializers.PrimaryKeyRelatedField(queryset=PetModel.objects.all(), source='adopted_pet', write_only=True)
-    adopter_id = serializers.PrimaryKeyRelatedField(queryset=UserModel.objects.all(), source='adopter', write_only=True)
-
     class Meta:
         model = AdoptionModel
-        fields = ['id', 'adopted_pet', 'adopter', 'adoption_date', 'status', 'adopted_pet_id', 'adopter_id']
+        fields = ['id', 'adopted_pet', 'adopter', 'adoption_date', 'status']
