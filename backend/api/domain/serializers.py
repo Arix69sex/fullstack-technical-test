@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import PetModel, VolunteerModel, AdopterModel, AdoptionModel
+from api.domain.models import PetModel, AdoptionModel, UserModel
 
 class PetSerializer(serializers.ModelSerializer):
     class Meta:
@@ -7,25 +7,16 @@ class PetSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
-class VolunteerSerializer(serializers.ModelSerializer):
+class UserSerializer(serializers.ModelSerializer):
     class Meta:
-        model = VolunteerModel
+        model = UserModel
         fields = '__all__'
-        extra_kwargs = {'password': {'write_only': True}}
-
-
-class AdopterSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = AdopterModel
-        fields = '__all__'
-        extra_kwargs = {'password': {'write_only': True}}
-
 
 class AdoptionSerializer(serializers.ModelSerializer):
     adopted_pet = PetSerializer(read_only=True)
-    adopter = AdopterSerializer(read_only=True)
+    user = UserSerializer(read_only=True)
     adopted_pet_id = serializers.PrimaryKeyRelatedField(queryset=PetModel.objects.all(), source='adopted_pet', write_only=True)
-    adopter_id = serializers.PrimaryKeyRelatedField(queryset=AdopterModel.objects.all(), source='adopter', write_only=True)
+    adopter_id = serializers.PrimaryKeyRelatedField(queryset=UserModel.objects.all(), source='adopter', write_only=True)
 
     class Meta:
         model = AdoptionModel
