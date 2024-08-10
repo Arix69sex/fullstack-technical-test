@@ -51,7 +51,7 @@ class AdoptionView(APIView):
             serializer = AdoptionSerializer(adoption)
             return Response(serializer.data)
         else:
-            adoptions = adoption.objects.all()
+            adoptions = AdoptionModel.objects.all()
             serializer = AdoptionSerializer(adoptions, many=True)
             return Response(serializer.data)
 
@@ -63,7 +63,7 @@ class AdoptionView(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def put(self, request, *args, **kwargs):
-        adoption = get_object_or_404(adoption, pk=kwargs['id'])
+        adoption = get_object_or_404(AdoptionModel, pk=kwargs['id'])
         serializer = AdoptionSerializer(adoption, data=request.data)
         if serializer.is_valid():
             serializer.save()
@@ -71,7 +71,7 @@ class AdoptionView(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def delete(self, request, *args, **kwargs):
-        adoption = get_object_or_404(adoption, pk=kwargs['id'])
+        adoption = get_object_or_404(AdoptionModel, pk=kwargs['id'])
         adoption.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 

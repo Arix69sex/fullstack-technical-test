@@ -21,4 +21,4 @@ class UserSerializer(serializers.ModelSerializer):
 class AdoptionSerializer(serializers.ModelSerializer):
     class Meta:
         model = AdoptionModel
-        fields = ['id', 'adopted_pet', 'adopter', 'adoption_date', 'status']
+        fields = ['id', 'adopted_pet', 'adopter', 'adoption_date', 'adoption_status']
