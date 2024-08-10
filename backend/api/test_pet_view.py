@@ -1,7 +1,7 @@
 from rest_framework.test import APITestCase
 from rest_framework import status
 from django.urls import reverse
-from api.models import PetModel, AdoptionModel, UserModel
+from api.models import PetModel
 
 class PetViewTestCase(APITestCase):
 
