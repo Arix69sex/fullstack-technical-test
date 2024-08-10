@@ -15,7 +15,12 @@ class PetView(APIView):
             serializer = PetSerializer(pet)
             return Response(serializer.data)
         else:
-            pets = PetModel.objects.all()
+            pet_status = request.query_params.get('pet_status')
+            if pet_status:
+                pets = PetModel.objects.filter(pet_status=pet_status)
+            else:
+                pets = PetModel.objects.all()
+            
             serializer = PetSerializer(pets, many=True)
             return Response(serializer.data)
 
