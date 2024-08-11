@@ -1,11 +1,10 @@
-
-import React from 'react';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import RegisterView from './RegisterView';
-import LoginView from './LoginView';
-import PetsListView from './PetListView';
-import AdopterListView from './AdopterListView';
-import VolunteerListView from './VolunteerListView';
+import React from "react";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import RegisterView from "./RegisterView";
+import LoginView from "./LoginView";
+import PetsListView from "./PetListView";
+import AdopterListView from "./AdopterListView";
+import VolunteerListView from "./VolunteerListView";
 
 const AppRoutes = () => {
   return (
