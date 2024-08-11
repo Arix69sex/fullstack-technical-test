@@ -1,13 +1,24 @@
 import React from 'react';
 import logo from './logo.svg';
 import './App.css';
-import { Button } from '@mantine/core';
+import { Button, MantineProvider, createTheme } from '@mantine/core';
+import RegisterView from './RegisterView';
+import LoginView from './LoginView';
+import AppRoutes from './AppRoutes';
+
+const theme = createTheme({
+  fontFamily: 'Open Sans, sans-serif',
+  primaryColor: 'green',
+});
+
 
 function App() {
   return (
-    <div className="App">
-      <Button variant = "filled">Button</Button>
+    <MantineProvider theme={theme}>
+     <div className="App">
+      <AppRoutes />
     </div>
+    </MantineProvider>
   );
 }
 
