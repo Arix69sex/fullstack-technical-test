@@ -1,22 +1,21 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useForm } from '@mantine/form';
-import { TextInput, PasswordInput, RadioGroup, Radio, Button, Container, Paper, Title, MantineTheme } from '@mantine/core';
-import { createTheme, MantineProvider } from '@mantine/core';
-import '@mantine/core/styles.css'
-
-const theme = createTheme({
-    /** Put your mantine theme override here */
-  });
+import { TextInput, PasswordInput, RadioGroup, Radio, Button, Container, Paper, Title } from '@mantine/core';
+import { useAuth } from './AuthContext';
+import { useNavigate } from 'react-router-dom';
 
 const RegisterView = () => {
-  // Initialize the form with initial values and validation
+  const { register, login } = useAuth();
+  const [error, setError] = useState('');
+  const navigate = useNavigate();
+
   const form = useForm({
     initialValues: {
       email: '',
       password: '',
       name: '',
       lastname: '',
-      role: 'adopter', // Default to 'adopter'
+      userType: 'adopter',
     },
 
     validate: {
@@ -28,19 +27,20 @@ const RegisterView = () => {
     },
   });
 
-  // Form submission handler
-  const handleSubmit = (values: typeof form.values) => {
-    console.log(values); // This is where you would handle form submission
-    // You might send a POST request to your backend with the form data
+  const handleSubmit = async (values: typeof form.values) => {
+    setError('');
+    try {
+      await register(values.email, values.password, values.name, values.lastname, values.userType);
+      await login(values.email, values.password);
+      navigate('/pets');
+    } catch (err) {
+      setError('Registration failed, please try again.');
+    }
   };
 
   return (
     <Container size={420} my={40}>
-      <Title
-        size="h1"
-      >
-        Register
-      </Title>
+      <Title size="h1">Register</Title>
 
       <Paper withBorder shadow="md" p={30} mt={30} radius="md">
         <form onSubmit={form.onSubmit(handleSubmit)}>
@@ -75,11 +75,14 @@ const RegisterView = () => {
             label="Are you an adopter or a volunteer?"
             required
             mt="md"
-            {...form.getInputProps('role')}
+            {...form.getInputProps('userType')}
           >
             <Radio value="adopter" label="Adopter" />
             <Radio value="volunteer" label="Volunteer" />
           </RadioGroup>
+          {error && (
+            <div style={{ color: 'red', marginTop: '10px' }}>{error}</div>
+          )}
           <Button fullWidth mt="xl" type="submit">
             Register
           </Button>
