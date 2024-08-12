@@ -5,7 +5,7 @@ import { useAuth } from './AuthContext';
 import { useNavigate } from 'react-router-dom';
 
 const RegisterView = () => {
-  const { login } = useAuth();
+  const { login, fetchUser } = useAuth();
   const [error, setError] = useState('');
   const navigate = useNavigate();
 
@@ -26,6 +26,7 @@ const RegisterView = () => {
     setError('');
     try {
       await login(values.email, values.password);
+      fetchUser();
       navigate('/pets');
     } catch (err) {
       setError('Login failed, please try again.');
@@ -56,7 +57,7 @@ const RegisterView = () => {
             {...form.getInputProps('password')}
           />
           <Button fullWidth mt="xl" type="submit">
-            Register
+            Confirm
           </Button>
         </form>
       </Paper>

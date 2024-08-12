@@ -5,7 +5,7 @@ import { useAuth } from './AuthContext';
 import { useNavigate } from 'react-router-dom';
 
 const RegisterView = () => {
-  const { register, login } = useAuth();
+  const { register, login, fetchUser } = useAuth();
   const [error, setError] = useState('');
   const navigate = useNavigate();
 
@@ -32,6 +32,7 @@ const RegisterView = () => {
     try {
       await register(values.email, values.password, values.name, values.lastname, values.userType);
       await login(values.email, values.password);
+      fetchUser();
       navigate('/pets');
     } catch (err) {
       setError('Registration failed, please try again.');
@@ -84,7 +85,7 @@ const RegisterView = () => {
             <div style={{ color: 'red', marginTop: '10px' }}>{error}</div>
           )}
           <Button fullWidth mt="xl" type="submit">
-            Register
+            Confirm
           </Button>
         </form>
       </Paper>
