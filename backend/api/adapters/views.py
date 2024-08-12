@@ -82,7 +82,12 @@ class UserView(APIView):
             serializer = UserSerializer(user)
             return Response(serializer.data)
         else:
-            users = UserModel.objects.all()
+            user_type = request.query_params.get('type')
+            if user_type:
+                users = UserModel.objects.filter(user_type=user_type)
+            else:
+                users = UserModel.objects.all()
+                
             serializer = UserSerializer(users, many=True)
             return Response(serializer.data)
 
