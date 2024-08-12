@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { Container, Title, Text, Grid, Card, Loader, Button } from '@mantine/core';
 import axios from 'axios';
-import { useAuth } from './AuthContext';
-import { AttributeMap, Pet } from './interfaces';
+import { useAuth } from '../service/AuthContext';
+import { AttributeMap, Pet } from '../helper/interfaces';
 
 
 const petStatus: AttributeMap = {

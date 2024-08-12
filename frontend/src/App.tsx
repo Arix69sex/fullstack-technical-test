@@ -1,15 +1,15 @@
 import "./App.css";
 import { MantineProvider, createTheme } from "@mantine/core";
-import RegisterView from "./RegisterView";
-import LoginView from "./LoginView";
-import Navbar from "./Navbar";
+import RegisterView from "./views/RegisterView";
+import LoginView from "./views/LoginView";
+import Navbar from "./components/Navbar";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import PetsListView from "./PetListView";
-import AdopterListView from "./AdopterListView";
-import VolunteerListView from "./VolunteerListView";
-import ProtectedRoute from "./ProtectedRoute";
-import { AuthProvider } from "./AuthContext";
-import UserAdoptionListView from "./AdoptionListView";
+import PetsListView from "./views/PetListView";
+import AdopterListView from "./views/AdopterListView";
+import VolunteerListView from "./views/VolunteerListView";
+import ProtectedRoute from "./components/ProtectedRoute";
+import { AuthProvider } from "./service/AuthContext";
+import UserAdoptionListView from "./views/AdoptionListView";
 
 const theme = createTheme({
   fontFamily: 'Roboto, sans-serif',

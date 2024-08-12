@@ -9,8 +9,8 @@ import {
   Button,
 } from "@mantine/core";
 import axios from "axios";
-import { useAuth } from "./AuthContext";
-import { Adoption } from "./interfaces";
+import { useAuth } from "../service/AuthContext";
+import { Adoption } from "../helper/interfaces";
 
 const AdoptionListView: React.FC = () => {
   const { user } = useAuth();

@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.urls import path
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 
-from api.adapters.views import AdoptionView, PetView, UserView
+from api.views import AdoptionView, PetView, UserView
 
 urlpatterns = [
     path("pets", PetView.as_view(), name="list-pets"),

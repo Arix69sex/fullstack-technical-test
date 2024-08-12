@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { Button, Group } from "@mantine/core";
-import { useAuth } from "./AuthContext";
+import { useAuth } from "../service/AuthContext";
 
 const Navbar = () => {
   const { isAuthenticated, logout, user } = useAuth();

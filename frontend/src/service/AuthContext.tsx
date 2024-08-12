@@ -1,7 +1,7 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
 import axios from "axios";
 import { jwtDecode } from "jwt-decode";
-import { AuthContextType, JWTData } from "./interfaces";
+import { AuthContextType, JWTData } from "../helper/interfaces";
 
 const baseUrl = "http://127.0.0.1:8000/api/";
 

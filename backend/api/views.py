@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from api.models import AdoptionModel, PetModel, UserModel 
-from api.domain.serializers import PetSerializer, UserSerializer, AdoptionSerializer
+from backend.api.serializers import PetSerializer, UserSerializer, AdoptionSerializer
 from rest_framework import generics, status
 from rest_framework.views import APIView
 from rest_framework.response import Response
