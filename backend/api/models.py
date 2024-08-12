@@ -4,6 +4,8 @@ from datetime import date
 from typing import Optional
 from django.contrib.auth.models import AbstractUser, Group, Permission
 
+from api.custom_user_manager import UserManager
+
 class PetModel(models.Model):
     PET_TYPE_CHOICES = [
         ('dog', 'Dog'),
@@ -76,3 +78,5 @@ class UserModel(AbstractUser):
     )
 
     USERNAME_FIELD = "username"
+
+    objects = UserManager()
