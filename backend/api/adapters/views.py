@@ -48,11 +48,25 @@ class AdoptionView(APIView):
     def get(self, request, *args, **kwargs):
         if 'id' in kwargs:
             adoption = get_object_or_404(AdoptionModel, pk=kwargs['id'])
-            serializer = AdoptionSerializer(adoption)
-            return Response(serializer.data)
+            adoptionSerializer = AdoptionSerializer(adoption)
+            pet = get_object_or_404(PetModel, pk=adoptionSerializer.data["adopted_pet"])
+            petSerializer = PetSerializer(pet)
+            return Response({
+                "adoption": adoptionSerializer.data,
+                "pet": petSerializer.data
+            })
         else:
-            adoptions = AdoptionModel.objects.all()
+            adopter_id = request.query_params.get('adopter')
+            if adopter_id:
+                adoptions = AdoptionModel.objects.filter(adopter=adopter_id)
+            else:
+                adoptions = AdoptionModel.objects.all()
+
             serializer = AdoptionSerializer(adoptions, many=True)
+            for adoptionData in serializer.data:
+                pet = get_object_or_404(PetModel, pk=adoptionData["adopted_pet"])
+                petSerializer = PetSerializer(pet)
+                adoptionData["adopted_pet"] = petSerializer.data
             return Response(serializer.data)
 
     def post(self, request, *args, **kwargs):
