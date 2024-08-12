@@ -1,58 +1,101 @@
-// src/PetsListView.tsx
-import React from 'react';
-import { Container, Title, Text, Grid, Card } from '@mantine/core';
+import React, { useEffect, useState } from 'react';
+import { Container, Title, Text, Grid, Card, Loader, Button } from '@mantine/core';
+import axios from 'axios';
+import { useAuth } from './AuthContext';
+import { AttributeMap, Pet } from './interfaces';
 
-// Define a TypeScript interface for a Pet
-interface Pet {
-  id: number;
-  name: string;
-  age: number;
-  type: string;
-  pet_status: string;
+
+const petStatus: AttributeMap = {
+  in_adoption: "In adoption",
+  adopted: "Adopted",
+  awaiting_adoption: "Awaiting Adoption"
 }
 
-const mockPets: Pet[] = [
-  {
-    id: 1,
-    name: 'Buddy',
-    age: 3,
-    type: 'Dog',
-    pet_status: 'Available',
-  },
-  {
-    id: 2,
-    name: 'Mittens',
-    age: 2,
-    type: 'Cat',
-    pet_status: 'Available',
-  },
-  {
-    id: 3,
-    name: 'Rex',
-    age: 5,
-    type: 'Dog',
-    pet_status: 'Adopted',
-  },
-  // Add more mock pets as needed
-];
-
 const PetsListView: React.FC = () => {
+  const { user } = useAuth();
+  const [pets, setPets] = useState<Pet[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const fetchPets = async () => {
+      try {
+        const url = user?.user_type === "adopter" 
+          ? "http://127.0.0.1:8000/api/pets?pet_status=in_adoption" 
+          : "http://127.0.0.1:8000/api/pets";
+        const response = await axios.get(url);
+        const fetchedPets: Pet[] = response.data;
+
+        setPets(fetchedPets);
+      } catch (err) {
+        setError('Failed to load pets.');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchPets();
+  }, [user?.user_type]);
+
+  const handleAdopt = async (petId: number) => {
+    try {
+      const adoptionData = {
+        adopted_pet: petId,
+        adopter: user?.id,
+        adoption_date: new Date().toISOString().split('T')[0],
+        adoption_status: "in_progress",
+      };
+      await axios.post('http://127.0.0.1:8000/api/adoptions', adoptionData);
+      const petData = pets.filter(pet => pet.id === petId)[0]
+      console.log("petData", petData)
+      const data = Object.assign(petData, {
+        "pet_status": "awaiting_adoption"
+      })
+      await axios.put('http://127.0.0.1:8000/api/pets/' + petId, data);
+      setPets(prevPets => prevPets.filter(pet => pet.id !== petId));
+    } catch (err) {
+      setError('Failed to complete the adoption.');
+    }
+  };
+
+  if (loading) {
+    return <Loader m="xl" />;
+  }
+
+  if (error) {
+    return <Text c="red" m="xl">{error}</Text>;
+  }
+
   return (
     <Container size="lg" my={40}>
-      <Title >Pets Available for Adoption</Title>
+      <Title>Pets Available for Adoption</Title>
 
-      <Grid mt={30}>
-        {mockPets.map((pet) => (
+      {pets.length < 1 ? (
+          <Container size="lg" my={40}>
+            <Text mt="md" fw={500} size="lg">
+              There are currently no pets for adoption.
+            </Text>
+          </Container>
+        ) : (
+          <Grid mt={30}>
+        {pets.map((pet) => (
           <Grid.Col key={pet.id} span={4}>
-            <Card shadow="md" padding="lg" radius="md" withBorder >
+            <Card shadow="md" padding="lg" radius="md" withBorder>
               <Text mt="md" fw={500} size="lg">{pet.name}</Text>
-              <Text color="dimmed">{pet.type}</Text>
-              <Text color="dimmed">Age: {pet.age} years</Text>
-              <Text color="dimmed">Status: {pet.pet_status}</Text>
+              <Text c="dimmed">{pet.type}</Text>
+              <Text c="dimmed">Age: {pet.age} years</Text>
+              <Text c="dimmed">Status: {petStatus[pet.pet_status]}</Text>
+              {user?.user_type === "adopter" && pet.pet_status === "in_adoption" && (
+                <Button onClick={() => handleAdopt(pet.id)}>
+                  Adopt
+                </Button>
+              )}
             </Card>
           </Grid.Col>
         ))}
       </Grid>
+        )}
+
     </Container>
   );
 };
