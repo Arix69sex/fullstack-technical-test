@@ -67,6 +67,12 @@ class AdoptionView(APIView):
                 pet = get_object_or_404(PetModel, pk=adoptionData["adopted_pet"])
                 petSerializer = PetSerializer(pet)
                 adoptionData["adopted_pet"] = petSerializer.data
+
+            for adoptionData in serializer.data:
+                user = get_object_or_404(UserModel, pk=adoptionData["adopter"])
+                userSerializer = UserSerializer(user)
+                adoptionData["adopter"] = userSerializer.data
+
             return Response(serializer.data)
 
     def post(self, request, *args, **kwargs):
