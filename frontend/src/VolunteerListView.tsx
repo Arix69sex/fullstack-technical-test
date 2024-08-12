@@ -1,46 +1,42 @@
-// src/PetsListView.tsx
-import React from 'react';
+// src/VolunteerListView.tsx
+import React, { useState, useEffect } from 'react';
 import { Container, Title, Text, Grid, Card } from '@mantine/core';
+import axios from 'axios';
 
 interface Volunteer {
-    id: number;
-    name: string;
-    lastname: string;
-    email: string;
-  }
-  
-  const mockVolunteers: Volunteer[] = [
-    {
-      id: 1,
-      name: 'Alice',
-      lastname: 'Johnson',
-      email: 'alice.johnson@example.com',
-    },
-    {
-      id: 2,
-      name: 'Bob',
-      lastname: "Smith",
-      email: 'Bob.smith@example.com',
-    },
-    {
-      id: 3,
-      name: 'Carol',
-      lastname: 'Davis',
-      email: 'carol.davis@example.com'   
-     },
-  ];
+  id: number;
+  name: string;
+  lastname: string;
+  username: string;
+}
 
-const PetsListView: React.FC = () => {
+const VolunteerListView: React.FC = () => {
+  const [volunteers, setVolunteers] = useState<Volunteer[]>([]);
+
+  useEffect(() => {
+    const fetchVolunteers = async () => {
+      try {
+        const response = await axios.get("http://127.0.0.1:8000/api/users?type=volunteer");
+        console.log("volunteers", volunteers)
+        setVolunteers(response.data);
+      } catch (error) {
+        console.error('Error fetching volunteers:', error);
+      }
+    };
+
+    fetchVolunteers();
+  }, []);
+
   return (
     <Container size="lg" my={40}>
-      <Title >Volunteers</Title>
+      <Title>Volunteers</Title>
 
       <Grid mt={30}>
-        {mockVolunteers.map((adopter) => (
-          <Grid.Col key={adopter.id} span={4}>
+        {volunteers.map((volunteer) => (
+          <Grid.Col key={volunteer.id} span={4}>
             <Card shadow="md" padding="lg" radius="md" withBorder>
-                <Text mt="md" fw={500} size="lg">{adopter.email}</Text>
-                <Text mt="md">{adopter.name} {adopter.lastname}</Text>
+              <Text mt="md" fw={500} size="lg">{volunteer.username}</Text>
+              <Text mt="md">{volunteer.name} {volunteer.lastname}</Text>
             </Card>
           </Grid.Col>
         ))}
@@ -49,4 +45,4 @@ const PetsListView: React.FC = () => {
   );
 };
 
-export default PetsListView;
+export default VolunteerListView;
