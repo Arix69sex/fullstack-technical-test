@@ -4,8 +4,8 @@ import { Button, Group } from "@mantine/core";
 import { useAuth } from "./AuthContext";
 
 const Navbar = () => {
-  const { isAuthenticated, logout } = useAuth();
-  console.log(isAuthenticated)
+  const { isAuthenticated, logout, user } = useAuth();
+  console.log(isAuthenticated);
   return (
     <nav>
       <Group justify="center" gap="xl" mt="xs">
@@ -23,15 +23,26 @@ const Navbar = () => {
             <Button component={Link} to="/pets">
               Pets
             </Button>
-            <Button component={Link} to="/adopters">
-              Adopters
-            </Button>
+            {user != null && user.user_type != "adopter" ? (
+              <Button component={Link} to="/adopters">
+                Adopters
+              </Button>
+            ) : (
+              <> </>
+            )}
+
             <Button component={Link} to="/adoptions">
               Adoptions
             </Button>
-            <Button component={Link} to="/volunteers">
-              Volunteers
-            </Button>
+
+            {user != null && user.user_type != "adopter" ? (
+              <Button component={Link} to="/volunteers">
+                Volunteers
+              </Button>
+            ) : (
+              <> </>
+            )}
+
             <Button onClick={logout}>Logout</Button>
           </>
         )}
