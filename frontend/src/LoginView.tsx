@@ -1,38 +1,35 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useForm } from '@mantine/form';
-import { TextInput, PasswordInput, RadioGroup, Radio, Button, Container, Paper, Title, MantineTheme } from '@mantine/core';
-import { createTheme, MantineProvider } from '@mantine/core';
-import '@mantine/core/styles.css'
-
-const theme = createTheme({
-    fontFamily: 'Open Sans, sans-serif',
-    primaryColor: 'red',
-  });
+import { TextInput, PasswordInput, RadioGroup, Radio, Button, Container, Paper, Title } from '@mantine/core';
+import { useAuth } from './AuthContext';
+import { useNavigate } from 'react-router-dom';
 
 const RegisterView = () => {
-  // Initialize the form with initial values and validation
+  const { login } = useAuth();
+  const [error, setError] = useState('');
+  const navigate = useNavigate();
+
   const form = useForm({
     initialValues: {
       email: '',
-      password: '',
-      name: '',
-      lastname: '',
-      role: 'adopter', // Default to 'adopter'
+      password: ''
     },
 
     validate: {
       email: (value) => (/^\S+@\S+$/.test(value) ? null : 'Invalid email'),
       password: (value) =>
-        value.length > 5 ? null : 'Password must be at least 6 characters long',
-      name: (value) => (value.length > 0 ? null : 'Name is required'),
-      lastname: (value) => (value.length > 0 ? null : 'Last name is required'),
+        value.length > 5 ? null : 'Password must be at least 6 characters long'
     },
   });
 
-  // Form submission handler
-  const handleSubmit = (values: typeof form.values) => {
-    console.log(values); // This is where you would handle form submission
-    // You might send a POST request to your backend with the form data
+  const handleSubmit = async (values: typeof form.values) => {
+    setError('');
+    try {
+      await login(values.email, values.password);
+      navigate('/pets');
+    } catch (err) {
+      setError('Login failed, please try again.');
+    }
   };
 
   return (
