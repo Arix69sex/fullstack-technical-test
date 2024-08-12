@@ -1,25 +1,7 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
 import axios from "axios";
 import { jwtDecode } from "jwt-decode";
-
-interface AuthContextType {
-  isAuthenticated: boolean;
-  user: any;
-  login: (email: string, password: string) => Promise<void>;
-  register: (
-    email: string,
-    password: string,
-    name: string,
-    lastName: string,
-    userType: string
-  ) => Promise<void>;
-  logout: () => void;
-  fetchUser: () => void;
-}
-
-interface JWTData {
-  user_id: string;
-}
+import { AuthContextType, JWTData } from "./interfaces";
 
 const baseUrl = "http://127.0.0.1:8000/api/";
 

@@ -9,7 +9,7 @@ import AdopterListView from "./AdopterListView";
 import VolunteerListView from "./VolunteerListView";
 import ProtectedRoute from "./ProtectedRoute";
 import { AuthProvider } from "./AuthContext";
-import UserAdoptionListView from "./UserAdoptionListView";
+import UserAdoptionListView from "./AdoptionListView";
 
 const theme = createTheme({
   fontFamily: 'Roboto, sans-serif',
