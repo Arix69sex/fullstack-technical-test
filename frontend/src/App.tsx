@@ -9,6 +9,7 @@ import AdopterListView from "./AdopterListView";
 import VolunteerListView from "./VolunteerListView";
 import ProtectedRoute from "./ProtectedRoute";
 import { AuthProvider } from "./AuthContext";
+import UserAdoptionListView from "./UserAdoptionListView";
 
 const theme = createTheme({
   fontFamily: 'Roboto, sans-serif',
@@ -54,6 +55,14 @@ function App() {
                 element={
                   <ProtectedRoute>
                     <AdopterListView />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/adoptions"
+                element={
+                  <ProtectedRoute>
+                    <UserAdoptionListView />
                   </ProtectedRoute>
                 }
               />

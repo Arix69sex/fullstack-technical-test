@@ -26,6 +26,9 @@ const Navbar = () => {
             <Button component={Link} to="/adopters">
               Adopters
             </Button>
+            <Button component={Link} to="/adoptions">
+              Adoptions
+            </Button>
             <Button component={Link} to="/volunteers">
               Volunteers
             </Button>
