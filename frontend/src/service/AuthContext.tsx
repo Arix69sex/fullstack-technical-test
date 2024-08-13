@@ -25,7 +25,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       const token = localStorage.getItem("token");
       if (typeof token !== "undefined") {
         const payload = jwtDecode(token!) as JWTData;
-        const response = await axios.get(baseUrl + "users/" + payload.user_id);
+        const response = await axios.get(`${process.env.REACT_APP_API_URL}users/${payload.user_id}`);
         setUser(response.data);
       }
     } catch (error) {
@@ -36,7 +36,8 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
   const login = async (email: string, password: string) => {
     try {
-      const response = await axios.post(baseUrl + "auth/login", {
+      console.log(`${process.env.REACT_APP_API_URL}auth/login`)
+      const response = await axios.post(`${process.env.REACT_APP_API_URL}auth/login`, {
         username: email,
         password: password,
       });
@@ -60,7 +61,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     userType: string
   ) => {
     try {
-      const response = await axios.post(baseUrl + "auth/register", {
+      const response = await axios.post(`${process.env.REACT_APP_API_URL}auth/register`, {
         username: email,
         password: password,
         name: name,
