@@ -1,12 +1,12 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useForm } from '@mantine/form';
-import { TextInput, PasswordInput, RadioGroup, Radio, Button, Container, Paper, Title } from '@mantine/core';
+import { TextInput, PasswordInput, Button, Container, Paper, Title } from '@mantine/core';
 import { useAuth } from '../service/AuthContext';
 import { useNavigate } from 'react-router-dom';
 
 const RegisterView = () => {
   const { login, fetchUser } = useAuth();
-  const [error, setError] = useState('');
+  const [ error, setError] = useState('');
   const navigate = useNavigate();
 
   const form = useForm({
@@ -16,7 +16,7 @@ const RegisterView = () => {
     },
 
     validate: {
-      email: (value) => (/^\S+@\S+$/.test(value) ? null : 'Invalid email'),
+      email: (value) => (/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value) ? null : 'Invalid email'),
       password: (value) =>
         value.length > 5 ? null : 'Password must be at least 6 characters long'
     },

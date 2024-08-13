@@ -1,9 +1,7 @@
-import React, { createContext, useContext, useState, useEffect } from "react";
+import React, { createContext, useContext, useState, useEffect, useMemo, useCallback } from "react";
 import axios from "axios";
-import { jwtDecode } from "jwt-decode";
+import {jwtDecode} from "jwt-decode";
 import { AuthContextType, JWTData } from "../helper/interfaces";
-
-const baseUrl = "http://127.0.0.1:8000/api/";
 
 const AuthContext = createContext<AuthContextType | null>(null);
 
@@ -20,7 +18,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     }
   }, []);
 
-  const fetchUser = async () => {
+  const fetchUser = useCallback(async () => {
     try {
       const token = localStorage.getItem("token");
       if (typeof token !== "undefined") {
@@ -32,11 +30,10 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       console.error("Failed to fetch user:", error);
       logout();
     }
-  };
+  }, []);
 
-  const login = async (email: string, password: string) => {
+  const login = useCallback(async (email: string, password: string) => {
     try {
-      console.log(`${process.env.REACT_APP_API_URL}auth/login`)
       const response = await axios.post(`${process.env.REACT_APP_API_URL}auth/login`, {
         username: email,
         password: password,
@@ -47,13 +44,14 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       axios.defaults.headers.common["Authorization"] = `Bearer ${access}`;
 
       setIsAuthenticated(true);
+      fetchUser();
     } catch (error) {
       console.error("Failed to login:", error);
       throw new Error("Invalid login credentials");
     }
-  };
+  }, [fetchUser]);
 
-  const register = async (
+  const register = useCallback(async (
     email: string,
     password: string,
     name: string,
@@ -76,19 +74,26 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       console.error("Failed to register:", error);
       throw new Error("Failed to register");
     }
-  };
+  }, []);
 
-  const logout = () => {
+  const logout = useCallback(() => {
     localStorage.removeItem("token");
     delete axios.defaults.headers.common["Authorization"];
     setIsAuthenticated(false);
     setUser(null);
-  };
+  }, []);
+
+  const value = useMemo(() => ({
+    isAuthenticated,
+    user,
+    login,
+    logout,
+    register,
+    fetchUser,
+  }), [isAuthenticated, user, login, logout, register, fetchUser]);
 
   return (
-    <AuthContext.Provider
-      value={{ isAuthenticated, user, login, logout, register, fetchUser }}
-    >
+    <AuthContext.Provider value={value}>
       {children}
     </AuthContext.Provider>
   );

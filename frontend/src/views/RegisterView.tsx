@@ -19,7 +19,7 @@ const RegisterView = () => {
     },
 
     validate: {
-      email: (value) => (/^\S+@\S+$/.test(value) ? null : 'Invalid email'),
+      email: (value) => (/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value) ? null : 'Invalid email'),
       password: (value) =>
         value.length > 5 ? null : 'Password must be at least 6 characters long',
       name: (value) => (value.length > 0 ? null : 'Name is required'),
