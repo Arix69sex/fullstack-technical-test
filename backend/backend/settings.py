@@ -24,10 +24,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "django-insecure-3uy@!@c%-1_%a1kzi46gu90oh$k))6v03vs%ourbx%^6w%tx@l"
+SECRET_KEY = os.getenv('DJANGO_SECRET')
 
-# SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
 ALLOWED_HOSTS = ["*"]
@@ -136,7 +134,8 @@ STATIC_URL = "static/"
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
-CORS_ALLOW_ALL_ORIGINS = True
-CORS_ALLOWS_CREDENTIALS = True
+CORS_ALLOWED_ORIGINS = [
+    os.getenv('REACT_FRONTEND_ULR')
+]
 
 AUTH_USER_MODEL = 'api.UserModel'

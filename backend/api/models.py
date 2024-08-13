@@ -49,7 +49,7 @@ class UserModel(AbstractUser):
         ('inactive', 'Inactive'),
     ]
 
-    USER_TYPE = [
+    USER_TYPES = [
         ('volunteer', 'Volunteer'),
         ('admin', 'Admin'),
         ('adopter', 'Adopter'),
@@ -61,7 +61,7 @@ class UserModel(AbstractUser):
     username = models.EmailField(unique=True)
     password = models.CharField(max_length=128) 
     status = models.CharField(max_length=8, choices=STATUS_CHOICES)
-    user_type = models.CharField(max_length=9, choices=USER_TYPE)
+    user_type = models.CharField(max_length=9, choices=USER_TYPES)
     groups = models.ManyToManyField(
         Group,
         related_name='custom_user_groups',
