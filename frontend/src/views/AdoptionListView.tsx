@@ -68,7 +68,7 @@ const AdoptionListView: React.FC = () => {
 
   const handleReject = async (adoptionId: number, petId: number) => {
     try {
-      await axios.delete(`http://127.0.0.1:8000/api/adoptions/${adoptionId}`);
+      await axios.delete(`${process.env.REACT_APP_API_URL}adoptions/${adoptionId}`);
 
       const adoption = adoptions.filter((adoption) => adoption.id == adoptionId)[0]
       const pet = adoption.adopted_pet;
@@ -139,7 +139,7 @@ const AdoptionListView: React.FC = () => {
                 )}
                 {user?.user_type !== "adopter" &&
                 adoption.adopted_pet.pet_status === "awaiting_adoption" ? (
-                  <Button m="sm" color="red" onClick={() =>
+                  <Button variant="outline" m="sm" color="red" onClick={() =>
                     handleReject(adoption.id, adoption.adopted_pet.id)
                   }>Reject</Button>
                 ) : (

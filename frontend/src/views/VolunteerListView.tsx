@@ -1,4 +1,3 @@
-// src/VolunteerListView.tsx
 import React, { useState, useEffect } from 'react';
 import { Container, Title, Text, Grid, Card } from '@mantine/core';
 import axios from 'axios';
@@ -16,7 +15,7 @@ const VolunteerListView: React.FC = () => {
   useEffect(() => {
     const fetchVolunteers = async () => {
       try {
-        const response = await axios.get("http://127.0.0.1:8000/api/users?type=volunteer");
+        const response = await axios.get(`${process.env.REACT_APP_API_URL}users?type=volunteer`);
         console.log("volunteers", volunteers)
         setVolunteers(response.data);
       } catch (error) {

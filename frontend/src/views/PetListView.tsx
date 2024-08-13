@@ -4,7 +4,6 @@ import axios from 'axios';
 import { useAuth } from '../service/AuthContext';
 import { AttributeMap, Pet } from '../helper/interfaces';
 
-
 const petStatus: AttributeMap = {
   in_adoption: "In adoption",
   adopted: "Adopted",
@@ -45,13 +44,12 @@ const PetsListView: React.FC = () => {
         adoption_date: new Date().toISOString().split('T')[0],
         adoption_status: "in_progress",
       };
-      await axios.post('http://127.0.0.1:8000/api/adoptions', adoptionData);
-      const petData = pets.filter(pet => pet.id === petId)[0]
-      console.log("petData", petData)
+      await axios.post(`${process.env.REACT_APP_API_URL}adoptions`, adoptionData);
+      const petData = pets.filter(pet => pet.id === petId)[0];
       const data = Object.assign(petData, {
         "pet_status": "awaiting_adoption"
-      })
-      await axios.put('http://127.0.0.1:8000/api/pets/' + petId, data);
+      });
+      await axios.put(`${process.env.REACT_APP_API_URL}/pets/${petId}`, data);
       setPets(prevPets => prevPets.filter(pet => pet.id !== petId));
     } catch (err) {
       setError('Failed to complete the adoption.');
@@ -67,35 +65,39 @@ const PetsListView: React.FC = () => {
   }
 
   return (
-    <Container size="lg" my={40}>
+    <Container size="lg" my={40} >
       <Title>Pets Available for Adoption</Title>
 
       {pets.length < 1 ? (
-          <Container size="lg" my={40}>
-            <Text mt="md" fw={500} size="lg">
-              There are currently no pets for adoption.
-            </Text>
-          </Container>
-        ) : (
-          <Grid mt={30}>
-        {pets.map((pet) => (
-          <Grid.Col key={pet.id} span={4}>
-            <Card shadow="md" padding="lg" radius="md" withBorder>
-              <Text mt="md" fw={500} size="lg">{pet.name}</Text>
-              <Text c="dimmed">{pet.type}</Text>
-              <Text c="dimmed">Age: {pet.age} years</Text>
-              <Text c="dimmed">Status: {petStatus[pet.pet_status]}</Text>
-              {user?.user_type === "adopter" && pet.pet_status === "in_adoption" && (
-                <Button onClick={() => handleAdopt(pet.id)}>
-                  Adopt
-                </Button>
-              )}
-            </Card>
-          </Grid.Col>
-        ))}
-      </Grid>
-        )}
-
+        <Container size="lg" my={40}>
+          <Text mt="md" fw={500} size="lg">
+            There are currently no pets for adoption.
+          </Text>
+        </Container>
+      ) : (
+        <Grid mt={30}>
+          {pets.map((pet) => (
+            <Grid.Col key={pet.id} span={4}>
+              <Card
+                shadow="md"
+                padding="lg"
+                radius="md"
+                withBorder
+              >
+                <Text mt="md" fw={500} size="24px">{pet.name}</Text>
+                <Text c="dimmed" size="18px" m="5px">Type: {pet.type}</Text>
+                <Text c="dimmed" size="18px" m="5px">Age: {pet.age} years</Text>
+                <Text c="dimmed" size="18px" m="5px">Status: {petStatus[pet.pet_status]}</Text>
+                {user?.user_type === "adopter" && pet.pet_status === "in_adoption" && (
+                  <Button onClick={() => handleAdopt(pet.id)} m="5px">
+                    Adopt
+                  </Button>
+                )}
+              </Card>
+            </Grid.Col>
+          ))}
+        </Grid>
+      )}
     </Container>
   );
 };
