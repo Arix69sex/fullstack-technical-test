@@ -1,10 +1,7 @@
-import React from "react";
 import {
-  BrowserRouter as Router,
   Route,
   Routes,
   Navigate,
-  BrowserRouter,
 } from "react-router-dom";
 import RegisterView from "../views/RegisterView";
 import LoginView from "../views/LoginView";
@@ -14,6 +11,7 @@ import VolunteerListView from "../views/VolunteerListView";
 import UserAdoptionListView from "../views/AdoptionListView";
 import { useAuth } from "../service/AuthContext";
 import ProtectedRoute from "./ProtectedRoute";
+import AdminPanel from "../views/AdminPanelView";
 
 const AppRoutes = () => {
   const { user } = useAuth();
@@ -38,6 +36,14 @@ const AppRoutes = () => {
         element={
           <ProtectedRoute>
             <LoginView />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/admin"
+        element={
+          <ProtectedRoute>
+            <AdminPanel />
           </ProtectedRoute>
         }
       />

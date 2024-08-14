@@ -20,6 +20,6 @@ export const userRoutes: AttributeMap = {
       "/pets", "/adopters", "/adoptions", "/volunteers"
     ],
     "admin":[
-      "/pets", "/adopters", "/adoptions", "/volunteers"
+      "/pets", "/adopters", "/adoptions", "/volunteers", "/admin"
     ],
   }
