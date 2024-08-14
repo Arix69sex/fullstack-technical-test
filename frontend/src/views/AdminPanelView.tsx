@@ -53,7 +53,6 @@ const AdminPanel = () => {
   const handleCreate = (entityType: string) => {
     setCurrentEntity(null);
     setCurrentEntityType(entityType);
-    console.log("entity type", entityType);
     setModalOpen(true);
   };
 
@@ -74,6 +73,7 @@ const AdminPanel = () => {
 
   const petRows = pets.map((pet) => (
     <Table.Tr key={pet["id"]}>
+      <Table.Td>{pet["id"]}</Table.Td>
       <Table.Td>{pet["name"]}</Table.Td>
       <Table.Td>{pet["race"]}</Table.Td>
       <Table.Td>{pet["age"]}</Table.Td>
@@ -81,8 +81,8 @@ const AdminPanel = () => {
       <td>
         <Center>
           <Group>
-            <Button onClick={() => handleEdit("pets", pet["id"])}>Edit</Button>
-            <Button color="red" onClick={() => handleDelete("pets", pet["id"])}>
+            <Button onClick={() => handleEdit("pet", pet)}>Edit</Button>
+            <Button color="red" onClick={() => handleDelete("pets", pet)}>
               Delete
             </Button>
           </Group>
@@ -93,17 +93,18 @@ const AdminPanel = () => {
 
   const adoptionRows = adoptions.map((adoption) => (
     <Table.Tr key={adoption["id"]}>
+      <Table.Td>{adoption["id"]}</Table.Td>
       <Table.Td>{adoption["adopter"]["username"]}</Table.Td>
       <Table.Td>{adoption["adopted_pet"]["name"]}</Table.Td>
       <Table.Td>
         <Center>
           <Group justify="center" align="center">
-            <Button onClick={() => handleEdit("adoption", adoption["id"])}>
+            <Button onClick={() => handleEdit("adoption", adoption)}>
               Edit
             </Button>
             <Button
               color="red"
-              onClick={() => handleDelete("adoption", adoption["id"])}
+              onClick={() => handleDelete("adoption", adoption)}
             >
               Delete
             </Button>
@@ -118,22 +119,27 @@ const AdminPanel = () => {
 
     return items.map((item) => (
       <Table.Tr key={item["id"]}>
-        <Table.Td>
-          <Center> {item["username"]}</Center>
+
+        <Table.Td ta="center">
+        {item["id"]}
         </Table.Td>
 
-        <Table.Td>
-          <Center> {item["name"] + " " + item["lastname"]}</Center>
+        <Table.Td ta="center">
+          {item["username"]}
+        </Table.Td>
+
+        <Table.Td ta="center">
+        {item["name"] + " " + item["lastname"]}
         </Table.Td>
         <td>
           <Center>
             <Group>
-              <Button onClick={() => handleEdit(entity, item["id"])}>
+              <Button onClick={() => handleEdit(entity, item)}>
                 Edit
               </Button>
               <Button
                 color="red"
-                onClick={() => handleDelete(entity, item["id"])}
+                onClick={() => handleDelete(entity, item)}
               >
                 Delete
               </Button>
@@ -156,6 +162,7 @@ const AdminPanel = () => {
         mb="20px"
       >
         <Table.Thead>
+          <Table.Th ta="center">Id</Table.Th>
           <Table.Th ta="center">Name</Table.Th>
           <Table.Th ta="center">Race</Table.Th>
           <Table.Th ta="center">Age</Table.Th>
@@ -180,6 +187,7 @@ const AdminPanel = () => {
         mb="20px"
       >
         <Table.Thead>
+        <Table.Th ta="center">Id</Table.Th>
           <Table.Th ta="center">Email</Table.Th>
           <Table.Th ta="center">Full Name</Table.Th>
           <Table.Th ta="center">Actions</Table.Th>
@@ -202,6 +210,7 @@ const AdminPanel = () => {
         mb="20px"
       >
         <Table.Thead>
+        <Table.Th ta="center">Id</Table.Th>
           <Table.Th ta="center">Adopter</Table.Th>
           <Table.Th ta="center">Pet</Table.Th>
           <Table.Th ta="center">Actions</Table.Th>

@@ -1,32 +1,51 @@
 import React, { useState } from "react";
-import { Button, TextInput, Container, Center, Title } from "@mantine/core";
+import { Button, TextInput, Container, Center, Title, Notification  } from "@mantine/core";
 import axios from "axios";
 
 const AdopterForm = ({ entity, onSuccess }: { entity?: any; onSuccess: () => void }) => {
-  const [formData, setFormData] = useState(entity || { username: "", name: "", lastname: "", user_type: "" });
+  const [formData, setFormData] = useState(entity || { username: "", name: "", lastname: "", user_type: "adopter" });
+  const [error, setError] = useState<string | null>(null);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
+  const title = !entity ? "Create New Adopter" : "Update Adopter";
+
+  const validateEmail = (email: string) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  };
+
   const handleSubmit = async () => {
+    if (!validateEmail(formData.username)) {
+      setError("Please enter a valid email address.");
+      return;
+    }
+    
     try {
         if (entity) {
-            await axios.put(`${process.env.REACT_APP_API_URL}adopters`, formData);
+            await axios.patch(`${process.env.REACT_APP_API_URL}users/${entity.id}`, formData);
         } else {
-            await axios.post(`${process.env.REACT_APP_API_URL}adopters/${entity.id}`, formData);
+            formData.password = "test123"
+            await axios.post(`${process.env.REACT_APP_API_URL}users`, formData);
         }
     
       onSuccess();
     } catch (error) {
-      console.error("Failed to save adopter:", error);
+      setError("Failed to save adopter.");
     }
   };
 
   return (
     <Container >
-    <Title mb="15px">Create New Adopter</Title>
-      <TextInput mt="10px" label="Email" name="email" value={formData.username} onChange={handleChange} />
+    <Title mb="15px">{title}</Title>
+    {error && (
+        <Notification color="red" onClose={() => setError(null)}>
+          {error}
+        </Notification>
+      )}
+      <TextInput mt="10px" label="Email" name="username" value={formData.username} onChange={handleChange} />
       <TextInput mt="10px" label="Name" name="name" value={formData.name} onChange={handleChange} />
       <TextInput mt="10px" label="Last Name" name="lastname" value={formData.lastname} onChange={handleChange} />
       <Center>
