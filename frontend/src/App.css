@@ -38,12 +38,17 @@
 }
 
 .hover {
-  transition: background-color 0.3s ease, transform 0.3s ease; /* Smooth transition */
+  transition: background-color 0.3s ease, transform 0.3s ease;
 }
 
 .hover:hover {
-  background-color: #fd7200; /* Hover background color */
+  background-color: #fd7200;
   transform: scale(1.1);
-  z-index: 100; /* Slightly enlarges the button on hover */
+  z-index: 100;
   color: antiquewhite;
+}
+
+.hover:hover button {
+  background-color: white;
+  color: #fd7200;
 }

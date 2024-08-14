@@ -81,7 +81,7 @@ const PetsListView: React.FC = () => {
             <Grid.Col key={pet.id} span={4}>
               <Card
                 className='hover'
-                shadow="md"
+                shadow="lg"
                 padding="lg"
                 radius="md"
                 withBorder
@@ -91,7 +91,7 @@ const PetsListView: React.FC = () => {
                 <Text size="18px" m="5px">Age: {pet.age} years</Text>
                 <Text size="18px" m="5px">Status: {petStatus[pet.pet_status]}</Text>
                 {user?.user_type === "adopter" && pet.pet_status === "in_adoption" && (
-                  <Button onClick={() => handleAdopt(pet.id)} m="5px">
+                  <Button className='hoverButton' onClick={() => handleAdopt(pet.id)} m="5px">
                     Adopt
                   </Button>
                 )}
