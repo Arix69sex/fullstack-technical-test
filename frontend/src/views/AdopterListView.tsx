@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Container, Title, Text, Grid, Card, Loader } from '@mantine/core';
 import axios from 'axios';
 import { Adopter } from '../helper/interfaces';
+import '../App.css'; 
 
 const PetsListView: React.FC = () => {
   const [adopters, setAdopters] = useState<Adopter[]>([]);
@@ -38,7 +39,7 @@ const PetsListView: React.FC = () => {
       <Grid mt={30}>
         {adopters.map((adopter) => (
           <Grid.Col key={adopter.id} span={4}>
-            <Card shadow="md" padding="lg" radius="md" withBorder >
+            <Card className="hover" shadow="md" padding="lg" radius="md" withBorder >
               <Text mt="md" fw={500} size="lg">{adopter.username}</Text>
               <Text mt="md">{adopter.name} {adopter.lastname}</Text>
             </Card>

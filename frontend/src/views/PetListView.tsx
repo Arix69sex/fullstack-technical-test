@@ -3,6 +3,7 @@ import { Container, Title, Text, Grid, Card, Loader, Button } from '@mantine/cor
 import axios from 'axios';
 import { useAuth } from '../service/AuthContext';
 import { AttributeMap, Pet } from '../helper/interfaces';
+import '../App.css'; 
 
 const petStatus: AttributeMap = {
   in_adoption: "In adoption",
@@ -79,15 +80,16 @@ const PetsListView: React.FC = () => {
           {pets.map((pet) => (
             <Grid.Col key={pet.id} span={4}>
               <Card
+                className='hover'
                 shadow="md"
                 padding="lg"
                 radius="md"
                 withBorder
               >
                 <Text mt="md" fw={500} size="24px">{pet.name}</Text>
-                <Text c="dimmed" size="18px" m="5px">Type: {pet.type}</Text>
-                <Text c="dimmed" size="18px" m="5px">Age: {pet.age} years</Text>
-                <Text c="dimmed" size="18px" m="5px">Status: {petStatus[pet.pet_status]}</Text>
+                <Text size="18px" m="5px">Type: {pet.type}</Text>
+                <Text size="18px" m="5px">Age: {pet.age} years</Text>
+                <Text size="18px" m="5px">Status: {petStatus[pet.pet_status]}</Text>
                 {user?.user_type === "adopter" && pet.pet_status === "in_adoption" && (
                   <Button onClick={() => handleAdopt(pet.id)} m="5px">
                     Adopt

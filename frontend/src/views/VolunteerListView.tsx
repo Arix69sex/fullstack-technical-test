@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Container, Title, Text, Grid, Card } from '@mantine/core';
 import axios from 'axios';
+import '../App.css'; 
 
 interface Volunteer {
   id: number;
@@ -33,7 +34,7 @@ const VolunteerListView: React.FC = () => {
       <Grid mt={30}>
         {volunteers.map((volunteer) => (
           <Grid.Col key={volunteer.id} span={4}>
-            <Card shadow="md" padding="lg" radius="md" withBorder>
+            <Card className="hover" shadow="md" padding="lg" radius="md" withBorder>
               <Text mt="md" fw={500} size="lg">{volunteer.username}</Text>
               <Text mt="md">{volunteer.name} {volunteer.lastname}</Text>
             </Card>

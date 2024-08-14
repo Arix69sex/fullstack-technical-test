@@ -11,6 +11,7 @@ import {
 import axios from "axios";
 import { useAuth } from "../service/AuthContext";
 import { Adoption } from "../helper/interfaces";
+import '../App.css'; 
 
 const AdoptionListView: React.FC = () => {
   const { user } = useAuth();
@@ -108,25 +109,25 @@ const AdoptionListView: React.FC = () => {
         ) : (
           adoptions.map((adoption) => (
             <Grid.Col key={adoption.id} span={4}>
-              <Card shadow="md" padding="lg" radius="md" withBorder>
+              <Card className="hover" shadow="md" padding="lg" radius="md" withBorder>
                 <Text mt="md" fw={500} size="xl">
                   {adoption.adopted_pet.name}
                 </Text>
-                <Text c="dimmed">{adoption.adopted_pet.type}</Text>
-                <Text c="dimmed">
+                <Text >{adoption.adopted_pet.type}</Text>
+                <Text >
                   Age: {adoption.adopted_pet.age} years
                 </Text>
-                <Text c="dimmed">Race: {adoption.adopted_pet.race}</Text>
-                <Text c="dimmed">
+                <Text >Race: {adoption.adopted_pet.race}</Text>
+                <Text >
                   Status: {adoption.adopted_pet.pet_status}
                 </Text>
-                <Text c="dimmed">
+                <Text >
                   Adopter Email: {adoption.adopter.username}
                 </Text>
-                <Text c="dimmed">
+                <Text >
                   Adopter Name: {adoption.adopter.name} {adoption.adopter.lastname}
                 </Text>
-                <Text c="dimmed">
+                <Text >
                   Status: {adoption.adopted_pet.pet_status}
                 </Text>
                 {user?.user_type !== "adopter" &&
