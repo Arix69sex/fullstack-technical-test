@@ -7,12 +7,12 @@ import AppRoutes from "./components/AppRoutes";
 
 const theme = createTheme({
   fontFamily: "Roboto, sans-serif",
-
-  primaryColor: "cyan",
+  primaryColor: "orange"
 });
 
 function App() {
   return (
+    
     <MantineProvider theme={theme}>
       <div className="App">
         <AuthProvider>
