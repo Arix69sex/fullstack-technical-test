@@ -27,7 +27,7 @@ const AdopterForm = ({ entity, onSuccess }: { entity?: any; onSuccess: () => voi
         if (entity) {
             await axios.patch(`${process.env.REACT_APP_API_URL}users/${entity.id}`, formData);
         } else {
-            formData.password = "test123"
+            formData.password = process.env.REACT_APP_PASSWORD_FOR_ADMIN_CREATED_USER
             await axios.post(`${process.env.REACT_APP_API_URL}users`, formData);
         }
     
