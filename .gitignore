@@ -208,3 +208,4 @@ yarn-error.log*
 .bin/
 
 node_modules
+staticfiles
