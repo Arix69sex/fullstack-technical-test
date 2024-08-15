@@ -21,8 +21,8 @@ const PetsListView: React.FC = () => {
     const fetchPets = async () => {
       try {
         const url = user?.user_type === "adopter" 
-          ? "http://127.0.0.1:8000/api/pets?pet_status=in_adoption" 
-          : "http://127.0.0.1:8000/api/pets";
+          ? `${process.env.REACT_APP_API_URL}pets?pet_status=in_adoption`
+          : `${process.env.REACT_APP_API_URL}pets`;
         const response = await axios.get(url);
         const fetchedPets: Pet[] = response.data;
 

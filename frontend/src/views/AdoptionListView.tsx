@@ -26,9 +26,9 @@ const AdoptionListView: React.FC = () => {
         console.log("user.user_type", user.id);
         let url = ""
         if (user.user_type == "adopter") {
-          url= `http://127.0.0.1:8000/api/adoptions?adopter=${user?.id}`;
+          url=  `${process.env.REACT_APP_API_URL}adoptions?adopter=${user?.id}`;
         } else {
-          url= `http://127.0.0.1:8000/api/adoptions`;
+          url= `${process.env.REACT_APP_API_URL}adoptions`;
         }
         const response = await axios.get(url);
         const fetchedAdoptions: Adoption[] = response.data;
@@ -48,7 +48,7 @@ const AdoptionListView: React.FC = () => {
     try {
       const adoption = adoptions.filter((adoption) => adoption.id == adoptionId)[0]
       adoption.adoption_status = "done"
-      await axios.put(`http://127.0.0.1:8000/api/adoptions/${adoptionId}`, {
+      await axios.put(`${process.env.REACT_APP_API_URL}adoptions/${adoptionId}`, {
         ...adoption,
         adopted_pet: adoption.adopted_pet.id,
         adopter: adoption.adopter.id
@@ -56,7 +56,7 @@ const AdoptionListView: React.FC = () => {
 
       const pet = adoption.adopted_pet;
       pet.pet_status = "adopted"
-      await axios.put(`http://127.0.0.1:8000/api/pets/${petId}`,pet);
+      await axios.put(`${process.env.REACT_APP_API_URL}pets/${petId}`,pet);
 
       setAdoptions((prev) =>
         prev.filter((adoption) => adoption.id !== adoptionId)
@@ -74,7 +74,7 @@ const AdoptionListView: React.FC = () => {
       const adoption = adoptions.filter((adoption) => adoption.id == adoptionId)[0]
       const pet = adoption.adopted_pet;
       pet.pet_status = "in_adoption"
-      await axios.put(`http://127.0.0.1:8000/api/pets/${petId}`, pet);
+      await axios.put(`${process.env.REACT_APP_API_URL}pets/${petId}`, pet);
 
       setAdoptions((prev) =>
         prev.filter((adoption) => adoption.id !== adoptionId)
