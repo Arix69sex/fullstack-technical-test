@@ -15,8 +15,10 @@ const AdoptionForm = ({
   entity?: any;
   onSuccess: () => void;
 }) => {
+  const parsedEntity = { adopter: entity["adopter"]["id"], adopted_pet: entity["adopted_pet"]["id"], adoption_date: entity["adoption_date"], adoption_status: entity["adoption_status"] }
+
   const [formData, setFormData] = useState(
-    { adopter: entity["adopter"]["id"], adopted_pet: entity["adopted_pet"]["id"], adoption_date: entity["adoption_date"], adoption_status: entity["adoption_status"] } || {
+    parsedEntity || {
       adopter: 0,
       adopted_pet: 0,
       adoption_date: "",
