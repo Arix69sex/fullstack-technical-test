@@ -48,12 +48,12 @@ class AdoptionView(APIView):
     def get(self, request, *args, **kwargs):
         if 'id' in kwargs:
             adoption = get_object_or_404(AdoptionModel, pk=kwargs['id'])
-            adoptionSerializer = AdoptionSerializer(adoption)
-            pet = get_object_or_404(PetModel, pk=adoptionSerializer.data["adopted_pet"])
-            petSerializer = PetSerializer(pet)
+            adoption_serializer = AdoptionSerializer(adoption)
+            pet = get_object_or_404(PetModel, pk=adoption_serializer.data["adopted_pet"])
+            pet_serializer = PetSerializer(pet)
             return Response({
-                "adoption": adoptionSerializer.data,
-                "pet": petSerializer.data
+                "adoption": adoption_serializer.data,
+                "pet": pet_serializer.data
             })
         else:
             adopter_id = request.query_params.get('adopter')
@@ -63,15 +63,15 @@ class AdoptionView(APIView):
                 adoptions = AdoptionModel.objects.all()
 
             serializer = AdoptionSerializer(adoptions, many=True)
-            for adoptionData in serializer.data:
-                pet = get_object_or_404(PetModel, pk=adoptionData["adopted_pet"])
-                petSerializer = PetSerializer(pet)
-                adoptionData["adopted_pet"] = petSerializer.data
+            for adoption_data in serializer.data:
+                pet = get_object_or_404(PetModel, pk=adoption_data["adopted_pet"])
+                pet_serializer = PetSerializer(pet)
+                adoption_data["adopted_pet"] = pet_serializer.data
 
-            for adoptionData in serializer.data:
-                user = get_object_or_404(UserModel, pk=adoptionData["adopter"])
-                userSerializer = UserSerializer(user)
-                adoptionData["adopter"] = userSerializer.data
+            for adoption_data in serializer.data:
+                user = get_object_or_404(UserModel, pk=adoption_data["adopter"])
+                user_serializer = UserSerializer(user)
+                adoption_data["adopter"] = user_serializer.data
 
             return Response(serializer.data)
 
