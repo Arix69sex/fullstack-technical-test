@@ -44,6 +44,7 @@ const RegisterView = () => {
       <Paper withBorder shadow="md" p={30} mt={30} radius="md">
         <form onSubmit={form.onSubmit(handleSubmit)}>
           <TextInput
+            maxLength={24} 
             label="Email"
             placeholder="you@example.com"
             required

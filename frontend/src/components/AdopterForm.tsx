@@ -45,7 +45,7 @@ const AdopterForm = ({ entity, onSuccess }: { entity?: any; onSuccess: () => voi
           {error}
         </Notification>
       )}
-      <TextInput mt="10px" label="Email" name="username" value={formData.username} onChange={handleChange} />
+      <TextInput maxLength={24}  mt="10px" label="Email" name="username" value={formData.username} onChange={handleChange} />
       <TextInput mt="10px" label="Name" name="name" value={formData.name} onChange={handleChange} />
       <TextInput mt="10px" label="Last Name" name="lastname" value={formData.lastname} onChange={handleChange} />
       <Center>
